@@ -6,7 +6,19 @@
   <a href="https://jitpack.io/#exerro/lifetimes-kt"><img src="https://jitpack.io/v/exerro/lifetimes-kt.svg" alt="JitPack badge"/></a>
 </p>
 
-Adds lifetime API to help with resource lifetimes and cleanup.
+Adds a lifetime API to help with resource lifetimes and cleanup.
+
+A lifetime represents a time span for which it is "alive". Destructors can be
+attached to a lifetime to be called when the lifetime ends.
+
+```kotlin
+withLifetime {
+    onLifetimeEnded { println("I was called!") }
+    println("I run first.")
+    //> I run first.
+}
+//> I was called!
+```
 
 ## Installation
 
@@ -43,6 +55,17 @@ dependencies {
 </dependency>
 ```
 
-## Testing the build before release
+## Getting started
 
-    ./gradlew clean && ./gradlew build && ./gradlew build publishToMavenLocal
+> The documentation is heavily linked with "see also"s, so take a look at the
+> docs for `Lifetime`.
+
+A useful wrapper is `withLifetime`, which introduces a lifetime spanning a block
+as shown above. When more control is required, use `Lifetime.createDetached` to
+explicitly manage when the lifetime ends.
+
+Sometimes, constant lifetimes might be wanted, for which there exists
+`Lifetime.createNeverEnding` and `Lifetime.createAlreadyEnded`.
+
+When there are already lifetimes available, using `Lifetime.createChildOf` can
+build a lifetime which relates to some parents.

@@ -4,7 +4,7 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.startCoroutine
 
-/** TODO */
+/** Test that [withLifetime] correctly wraps a block with a [Lifetime]. */
 fun testWithLifetime() {
     var destructorCalled1 = false
     var destructorCalled2 = false

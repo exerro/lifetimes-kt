@@ -1,6 +1,7 @@
 package me.exerro.lifetimes
 
-/** TODO */
+/** Test that [createAlreadyEnded] returns a lifetime which is not alive for
+ *  the duration of the test. */
 fun testAlreadyEnded() {
     val lifetime = Lifetime.createAlreadyEnded()
     var destructorCalled1 = false

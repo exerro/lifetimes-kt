@@ -1,6 +1,6 @@
 package me.exerro.lifetimes
 
-/** TODO */
+/** Test that lifetimes created with [createNeverEnding] behave as documented. */
 fun testNeverEnding() {
     val lifetime = Lifetime.createNeverEnding()
     var destructorCalled = false

@@ -1,6 +1,6 @@
 package me.exerro.lifetimes
 
-/** TODO */
+/** Test that lifetimes created with [createDetached] behave as documented. */
 fun testDetached() {
     val lifetime = Lifetime.createDetached()
     var destructorCalled1 = false

@@ -23,7 +23,7 @@ fun Lifetime.Companion.createDetached() = object: Lifetime.Managed {
             destructors.toList()
         }
         else emptyList()
-    } .forEach { it() }
+    } .asReversed().forEach { it() }
 
     override fun onLifetimeEnded(destructor: () -> Unit) = synchronized(lock) {
         val binding = onLifetimeEndedIfAlive(destructor = destructor)

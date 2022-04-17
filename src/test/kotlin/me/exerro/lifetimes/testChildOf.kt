@@ -1,6 +1,6 @@
 package me.exerro.lifetimes
 
-/** TODO */
+/** Test that lifetimes created with [createChildOf] behave as documented. */
 fun testChildOf() {
     val a = Lifetime.createDetached()
     val b = Lifetime.createDetached()

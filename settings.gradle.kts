@@ -1,1 +1,1 @@
-rootProject.name = "lifetimes"
+rootProject.name = "lifetimes-kt"
