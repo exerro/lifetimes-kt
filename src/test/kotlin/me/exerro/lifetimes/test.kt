@@ -6,6 +6,7 @@ fun main() {
     testAlreadyEnded()
     testDetached()
     testChildOf()
+    testWithLifetime()
 
     LifetimeBinding.Companion
 }
