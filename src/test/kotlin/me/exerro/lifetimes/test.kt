@@ -5,6 +5,7 @@ fun main() {
     testNeverEnding()
     testAlreadyEnded()
     testDetached()
+    testManagedChild()
     testChildOf()
     testWithLifetime()
 

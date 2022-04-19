@@ -52,6 +52,17 @@ fun Lifetime.Companion.createDetached() = object: Lifetime.Managed {
     }
 }
 
+/** Create a [Lifetime.Managed] which will end either explicitly or when this
+ *  [parent] lifetime ends.
+ *
+ *  @see createDetached
+ */
+fun Lifetime.Companion.createManagedChildOf(parent: Lifetime): Lifetime.Managed {
+    val lifetime = Lifetime.createDetached()
+    parent.onLifetimeEnded { lifetime.end() }
+    return lifetime
+}
+
 /** Create a lifetime which is a "child" of [lifetimes]. If [all] is `false`,
  *  the resultant lifetime will end when *any* of the parent [lifetimes] end.
  *  If [all] is `true`, the resultant lifetime will end only when *all* of the
