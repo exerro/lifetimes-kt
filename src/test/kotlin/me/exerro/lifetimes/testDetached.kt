@@ -41,4 +41,6 @@ fun testDetached() {
 
     lifetime.onLifetimeEnded { destructorCalled5 = true }
     assert(destructorCalled5) { "onLifetimeEnded destructor not called when lifetime ended" }
+
+    // TODO: should test keepLifetimeAliveInOrElse
 }

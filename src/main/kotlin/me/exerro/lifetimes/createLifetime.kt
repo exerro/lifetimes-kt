@@ -17,6 +17,15 @@ fun Lifetime.Companion.createDetached() = object: Lifetime.Managed {
 
     override var isAlive = true
 
+    override fun <T> keepLifetimeAliveInOrElse(block: () -> T, orElse: () -> T) =
+        when (val v = synchronized(lock) {
+            if (isAlive) Optional.Of(block())
+            else Optional.Empty
+        }) {
+            is Optional.Of -> v.value
+            Optional.Empty -> orElse()
+        }
+
     override fun end() = synchronized(lock) {
         if (isAlive) {
             isAlive = false
@@ -89,6 +98,9 @@ fun Lifetime.Companion.createChildOf(
 fun Lifetime.Companion.createNeverEnding() = object: Lifetime {
     override val isAlive = true
 
+    override fun <T> keepLifetimeAliveInOrElse(block: () -> T, orElse: () -> T) =
+        block()
+
     override fun onLifetimeEnded(destructor: () -> Unit) =
         LifetimeBinding { /* do nothing */ }
 
@@ -107,6 +119,9 @@ fun Lifetime.Companion.createNeverEnding() = object: Lifetime {
 fun Lifetime.Companion.createAlreadyEnded() = object: Lifetime {
     override val isAlive = false
 
+    override fun <T> keepLifetimeAliveInOrElse(block: () -> T, orElse: () -> T) =
+        orElse()
+
     override fun onLifetimeEnded(destructor: () -> Unit): LifetimeBinding? {
         destructor()
         return null
@@ -114,4 +129,9 @@ fun Lifetime.Companion.createAlreadyEnded() = object: Lifetime {
 
     override fun onLifetimeEndedIfAlive(ifAlive: () -> Unit, destructor: () -> Unit): LifetimeBinding? =
         null
+}
+
+private sealed interface Optional<out T> {
+    data class Of<T>(val value: T): Optional<T>
+    object Empty: Optional<Nothing>
 }

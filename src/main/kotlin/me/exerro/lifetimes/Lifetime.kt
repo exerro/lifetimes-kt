@@ -13,6 +13,40 @@ interface Lifetime {
     /** Whether this lifetime is currently alive. */
     val isAlive: Boolean
 
+    /** If the lifetime is alive, run [block], keeping the lifetime alive for
+     *  the duration of the execution. Otherwise, run [orElse].
+     *
+     *  Note: The lifetime may still be ended from the thread on which this
+     *  function is called (e.g. within [block]). */
+    fun <T> keepLifetimeAliveInOrElse(block: () -> T, orElse: () -> T): T
+
+    /** If the lifetime is alive, run [block], keeping the lifetime alive for
+     *  the duration of the execution. Otherwise, return [default].
+     *
+     *  Note: The lifetime may still be ended from the thread on which this
+     *  function is called (e.g. within [block]). */
+    fun <T> keepLifetimeAliveInOrDefault(default: T, block: () -> T) =
+        keepLifetimeAliveInOrElse(block) { default }
+
+    /** If the lifetime is alive, run [block], keeping the lifetime alive for
+     *  the duration of the execution. Otherwise, return null.
+     *
+     *  Note: The lifetime may still be ended from the thread on which this
+     *  function is called (e.g. within [block]). */
+    fun <T> keepLifetimeAliveInOrNull(block: () -> T): T? =
+        keepLifetimeAliveInOrElse(block) { null }
+
+    /** If the lifetime is alive, run [block], keeping the lifetime alive for
+     *  the duration of the execution. Otherwise, throw an exception.
+     *
+     *  Note: The lifetime may still be ended from the thread on which this
+     *  function is called (e.g. within [block]). */
+    @Throws(LifetimeHasEnded::class)
+    fun <T> keepLifetimeAliveInOrThrow(block: () -> T): T =
+        keepLifetimeAliveInOrElse(block) {
+            throw LifetimeHasEnded("Lifetime for keepLifetimeAliveInOrThrow has ended")
+        }
+
     /** If the lifetime is alive, attach [destructor] to the lifetime's list of
      *  destructors. Otherwise, run [destructor] immediately.
      *  [destructor] will be called either immediately, or when the lifetime
