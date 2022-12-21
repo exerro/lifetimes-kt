@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    implementation("me.exerro:lifetimes-kt:1.2.0")
+    implementation("me.exerro:lifetimes-kt:1.2.1")
 }
 ```
 
@@ -51,7 +51,7 @@ dependencies {
 <dependency>
   <groupId>me.exerro</groupId>
   <artifactId>lifetimes-kt</artifactId>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
 </dependency>
 ```
 

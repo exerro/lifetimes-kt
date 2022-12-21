@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm") version "1.7.21"
     `maven-publish`
 }
 
@@ -22,7 +22,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "me.exerro"
             artifactId = "lifetimes-kt"
-            version = "1.2.0"
+            version = "1.2.1"
 
             from(components["java"])
         }
