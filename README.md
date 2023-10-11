@@ -6,7 +6,7 @@
   <a href="https://jitpack.io/#exerro/lifetimes-kt"><img src="https://jitpack.io/v/exerro/lifetimes-kt.svg" alt="JitPack badge"/></a>
 </p>
 
-Adds a lifetime API to help with resource lifetimes and cleanup.
+A lifetime API to help with resource lifetimes and cleanup.
 
 A lifetime represents a time span for which it is "alive". Destructors can be
 attached to a lifetime to be called when the lifetime ends.
@@ -14,6 +14,22 @@ attached to a lifetime to be called when the lifetime ends.
 ```kotlin
 withLifetime {
     onLifetimeEnded { println("I was called!") }
+    println("I run first.")
+    //> I run first.
+}
+//> I was called!
+```
+
+Using Kotlin contexts, this approach can be streamlined and composed:
+
+```kotlin
+context (Lifetime)
+fun doLivingThing() {
+    onLifetimeEnded { println("I was called!") }
+}
+
+withLifetime {
+    doLivingThing()
     println("I run first.")
     //> I run first.
 }
